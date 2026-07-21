@@ -104,19 +104,43 @@ print(result["volumes_pct"]) # {"Label_1": 0.72, "Label_2": 46.24, ...}
 
 ## Normative Analysis
 
-After running NeuroLS segmentation, the `brainchart/` directory provides R scripts to compute normative centile scores and Normative Deviation Index (NDI) from the volume outputs.
+After running NeuroLS segmentation, the `brainchart/` directory provides a two-step R pipeline to build normative reference curves and score clinical subjects.
 
-### NN_brainchart (centile scoring and NDI)
+### Step 1 — Normative model fitting (`brainchart/step1_normative_fitting/`)
+
+Fits GAMLSS normative models on a healthy cohort to produce reference curves for global/subcortical volumes and DTI (FA, MD).
+
+**R packages required**: `ggplot2`, `gamlss`, `gamlss.dist`
+
+**To run**:
+
+1. Set `tmp_folder` at the top of each script to the `brainchart/step1_normative_fitting/` directory path.
+2. Run the relevant script:
+
+```r
+# Global and subcortical volumes
+source("brainchart/step1_normative_fitting/brainchart_section3_global_subcortical.R")
+
+# DTI FA/MD
+source("brainchart/step1_normative_fitting/brainchart_section3_DTI_FA_MD.R")
+
+# Developmental milestones
+source("brainchart/step1_normative_fitting/brainchart_section3_milestones.R")
+```
+
+**Output**: fitted reference `.RData` files used as input to Step 2.
+
+### Step 2 — Centile scoring and NDI (`brainchart/step2_centile_scoring/`)
+
+Takes the reference data from Step 1 and scores new clinical subjects: centile positions, Normative Deviation Index (NDI), and curve visualizations.
 
 **R packages required**: `ggplot2`, `dplyr`, `tidyr`
-
-Scripts and reference data are in `brainchart/`:
 
 | File | Description |
 |---|---|
 | `NN_brainchart_main.R` | Main script — run this |
 | `NN_brainchart_functions.R` | Supporting functions |
-| `volume_reference_variables.RData` | Normative centile reference curves |
+| `volume_reference_variables.RData` | Pre-fitted normative reference curves (output of Step 1) |
 | `healthy_NDI_reference.RData` | Healthy cohort NDI distribution |
 | `disease_age_range_map.RData` | Disease-specific age range definitions |
 | `example_clinical_data.RData` | Example input data |
@@ -128,37 +152,15 @@ Scripts and reference data are in `brainchart/`:
 3. Run the script:
 
 ```r
-source("brainchart/NN_brainchart_main.R")
+source("brainchart/step2_centile_scoring/NN_brainchart_main.R")
 ```
 
 **Outputs** (saved to `output_dir`):
-- `*_ref.png` — normative centile trajectory plots for each brain region
+- `*_ref.png` — normative centile trajectory plots per brain region
 - `*_<region>.png` — clinical cohort overlaid on normative curves
 - `*_median_centile_table.csv` — per-subject median centile score per region
 - `*_global_NDI.csv` / `*_subcortical_NDI.csv` — NDI scores
 - `*_global_NDI_violin.png` / `*_subcortical_NDI_violin.png` — NDI distribution plots
-
-### Section 3 brainchart scripts
-
-Scripts and data in `brainchart/section3/` provide normative reference model fitting for global/subcortical volumes and DTI (FA, MD).
-
-**R packages required**: `ggplot2`, `gamlss`, `gamlss.dist`
-
-**To run**:
-
-1. Set `tmp_folder` at the top of each script to the `brainchart/section3/` directory path.
-2. Run the relevant script:
-
-```r
-# Global and subcortical volumes
-source("brainchart/section3/brainchart_section3_global_subcortical.R")
-
-# DTI FA/MD
-source("brainchart/section3/brainchart_section3_DTI_FA_MD.R")
-
-# Developmental milestones
-source("brainchart/section3/brainchart_section3_milestones.R")
-```
 
 ## Training
 
