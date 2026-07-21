@@ -1,0 +1,18 @@
+train:
+  cls_num: 15
+  local_mae_patch: 8
+  global_mae_patch: 4
+
+data:
+  normalize: True
+  norm_perc: 99.5
+  remove_bg: True
+  patch_size: [96, 96, 96]
+
+model:
+  modalities: ['T1w', 'T2w', 'FA', 'MD']
+  age_groups: ['fetal', 'neonatal', 'infant', 'child', 'adult', 'elderly']
+  moe_type: 'hierarchical'
+  embed_dim: 512
+  depth: 5
+  num_age_classes: 6

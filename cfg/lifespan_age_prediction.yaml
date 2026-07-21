@@ -1,0 +1,42 @@
+system:
+  project: AgePrediction
+  exp_name: Lifespan_Age_Stage1
+  n_threads: 8
+  ckpt_dir: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation_v2/checkpoint/age1_checkpoints'
+  seed: 42
+  wandb: true
+  save_nii: false
+
+train:
+  type: 'age_stage1'
+  lr: 1e-4
+  batch_size: 8
+  epochs: 100
+  niter: 60  # Start learning rate decay after 60 epochs
+  optimizer: 'AdamW'
+  weight_decay: 0.01
+  betas: [0.9, 0.999]
+  print_freq: 50
+  save_epoch_freq: 10
+  patience: 20
+
+data:
+  normalize: true
+  norm_perc: 99.5
+  remove_bg: true
+  aug: true
+  aug_prob: 0.3
+  patch_size: [96, 96, 96]  # Input size to MAE encoder
+
+  # Age prediction data paths
+  age_root: '/labs/wanglab/projects/lifespan-T1T2FA'
+  age_domain_file: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation_v2/cfg/age_predict/age_domains.txt'
+  age_train_csv: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation/cfg/age_predict/age_train.csv'
+  age_val_csv: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation/cfg/age_predict/age_val.csv'
+
+model:
+  modalities: ['T1w', 'T2w', 'FA']
+  embed_dim: 512
+  num_age_classes: 6  # 0:Fetal, 1:Newborn, 2:Infant, 3:Child/Adol, 4:Adult, 5:Elderly
+  load_pretrain: true
+  pretrain_model: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation/checkpoint/MAE_checkpoints/best_mae.pth'

@@ -1,0 +1,54 @@
+system:
+  project: PROJE
+  exp_name: Lifespan_Synthesis
+  n_threads: 8
+  ckpt_dir: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation/synthesis_checkpoints'
+  seed: 0
+  wandb: true
+  save_nii: true
+  no_html: false
+  display_winsize: 128
+
+train:
+  type: 'synthesis'
+  lr: 1e-4
+  batch_size: 4
+  epochs: 2000
+  niter: 1500
+  optimizer: 'AdamW'
+  weight_decay: 0.05
+  betas: [0.9, 0.95]
+  print_freq: 100
+  save_epoch_freq: 100
+  # MAE patch sizes (needed for encoder)
+  local_mae_patch: 8
+  global_mae_patch: 4
+
+data:
+  normalize: true
+  norm_perc: 99.5
+  remove_bg: false
+  aug: true
+  aug_prob: 0.35
+  patch_size: [96, 96, 96]
+  # Synthesis data root (following MAE structure)
+  # Expected structure:
+  #   synthesis_root/
+  #     HCP-A/
+  #       Resampled/
+  #         sub-*/
+  #           ses-*/
+  #             anat/
+  #               *_T1w.nii.gz
+  #               *_T2w.nii.gz
+  #               *_FA.nii.gz
+  synthesis_root: '/labs/wanglab/projects/lifespan-T1T2FA'
+  synthesis_domain_file: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation/cfg/synthesis_domains.txt'
+  synthesis_train_csv: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation/cfg/synthesis_train.csv'
+  synthesis_val_csv: '/opt/localdata/data/usr-envs/ruiying/Code/foundation/MoE_foundation/cfg/synthesis_val.csv'
+
+model:
+  modalities: ['T1w', 'T2w', 'FA']
+  embed_dim: 512
+  load_pretrain: false
+  pretrain_model: null

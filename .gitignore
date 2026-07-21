@@ -1,0 +1,29 @@
+# Model checkpoints (large files, download via HF Hub)
+checkpoints/
+MAE_checkpoint/
+segmentation_checkpoints/
+
+# Training data
+final_label_lifespan/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Data
+*.nii
+*.nii.gz
+*.csv
+cfg/age_predict/*.csv
+cfg/*.txt
+cfg/sub_list_final.csv
+cfg/test_sub_list.csv
+
+# Misc
+.DS_Store
+*.log
