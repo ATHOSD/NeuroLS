@@ -2,6 +2,21 @@
 
 ![NeuroLS overview](fig1.png)
 
+## Table of Contents
+
+- [Model overview](#model-overview)
+- [Installation](#installation)
+- [Checkpoints](#checkpoints)
+- [Usage](#usage)
+  - [Command line](#command-line)
+  - [Python API](#python-api)
+- [Normative Analysis](#normative-analysis)
+  - [Step 1 — Normative model fitting](#step-1--normative-model-fitting-brainchartstep1_normative_fitting)
+  - [Step 2 — Centile scoring and NDI](#step-2--centile-scoring-and-ndi-brainchartstep2_centile_scoring)
+- [Training](#training)
+  - [1. MAE Pretraining](#1-mae-pretraining)
+  - [2. Segmentation Fine-tuning](#2-segmentation-fine-tuning)
+
 ## Model overview
 
 - **Task**: 15-class brain tissue segmentation (background + 14 labels) across the full lifespan
