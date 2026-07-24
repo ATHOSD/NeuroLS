@@ -84,8 +84,10 @@ checkpoints/
 ### Command line
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python pipeline.py /path/to/brain.nii.gz --modality T1w --output_dir ./output
+CUDA_VISIBLE_DEVICES=<gpu_id> python pipeline.py /path/to/brain.nii.gz --modality T1w --output_dir ./output
 ```
+
+Replace `<gpu_id>` with the index of an available GPU (e.g. `0`). To check GPU availability: `nvidia-smi`.
 
 **Arguments**:
 
@@ -193,7 +195,7 @@ Edit `cfg/lifespan_mae.yaml` and update:
 | `data.mae_val_domain_file` | Text file listing validation domains |
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python train_mae_pretraining.py \
+CUDA_VISIBLE_DEVICES=<gpu_id> python train_mae_pretraining.py \
     --config cfg/lifespan_mae.yaml \
     --data_root /path/to/data \
     --output_dir ./MAE_checkpoints
@@ -202,7 +204,7 @@ CUDA_VISIBLE_DEVICES=0 python train_mae_pretraining.py \
 To resume from a checkpoint:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python train_mae_pretraining.py \
+CUDA_VISIBLE_DEVICES=<gpu_id> python train_mae_pretraining.py \
     --config cfg/lifespan_mae.yaml \
     --resume ./MAE_checkpoints/latest.pth
 ```
@@ -224,7 +226,7 @@ Edit `cfg/lifespan_segmentation.yaml` and update:
 Each data directory must contain skull-stripped NIfTI files and a `demographics.csv` with columns `subject_id`, `modality`, `age_group`.
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python train_segmentation.py \
+CUDA_VISIBLE_DEVICES=<gpu_id> python train_segmentation.py \
     --config cfg/lifespan_segmentation.yaml \
     --pretrained ./MAE_checkpoints/best_mae.pth
 ```
